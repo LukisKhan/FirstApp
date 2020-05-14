@@ -15,18 +15,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.addSublayer(shape)
-        view.layer.addSublayer(document)
         view.layer.addSublayer(replicator)
         view.layer.addSublayer(loadingReplicator)
         setupRect()
-        setupDocument()
         setupReplicator()
         setupLoadingShape()
 //        setupMask()
     }
     
     let shape = CAShapeLayer()
-    let document = CAShapeLayer()
+ 
     let replicator = CAReplicatorLayer()
     let loadingShape = CAShapeLayer()
     let loadingReplicator = CAReplicatorLayer()
@@ -53,27 +51,7 @@ class ViewController: UIViewController {
     }
 
 // Document //////////////////////////////////////////////////////////////
-    func setupDocument() {
-        document.strokeColor = UIColor.red.cgColor
-        document.fillColor = UIColor.yellow.cgColor
-        let size = CGSize(width: 100, height: 120)
-        let foldInset: CGFloat = 30
 
-        let path = CGMutablePath()
-
-        path.move(to: .zero)
-        path.addLine(to: CGPoint(x:0, y: size.height))
-        path.addLine(to: CGPoint(x: size.width, y: size.height))
-        path.addLine(to: CGPoint(x: size.width, y: foldInset))
-        path.addLine(to: CGPoint(x: size.width - foldInset, y: 0))
-        path.addLine(to: .zero)
-
-        path.move(to: CGPoint(x: size.width - foldInset, y: 0))
-        path.addLine(to: CGPoint(x: size.width - foldInset, y: foldInset))
-        path.addLine(to: CGPoint(x: size.width, y: foldInset))
-
-        document.path = path
-    }
         
         
 // Replicator //////////////////////////////////////////////////////////////
