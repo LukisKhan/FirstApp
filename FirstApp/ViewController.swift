@@ -14,89 +14,115 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.layer.addSublayer(shape)
+        view.layer.addSublayer(document)
+        view.layer.addSublayer(replicator)
+        view.layer.addSublayer(loadingReplicator)
+        setupRect()
+        setupDocument()
+        setupReplicator()
+        setupLoadingShape()
+//        setupMask()
+    }
+    
+    let shape = CAShapeLayer()
+    let document = CAShapeLayer()
+    let replicator = CAReplicatorLayer()
+    let loadingShape = CAShapeLayer()
+    let loadingReplicator = CAReplicatorLayer()
+ 
 // Rectangle //////////////////////////////////////////////////////////////
-//        let shape = CAShapeLayer()
-//        view.layer.addSublayer(shape)
-//        shape.strokeColor = UIColor.white.cgColor
-//        shape.fillColor = UIColor.blue.cgColor
-//
-//        let path = CGMutablePath()
-//        path.addRoundedRect(in: view.bounds, cornerWidth: 20, cornerHeight: 20)
-//        shape.path = path
-//
-//        path.addEllipse(in: view.bounds)
-//        shape.path = path
-//
-//        path.addRect(view.bounds, transform: .init(scaleX: 0.5, y: 0.5))
-//        shape.path = path
+    func setupRect() {
+        shape.strokeColor = UIColor.white.cgColor
+        shape.fillColor = UIColor.blue.cgColor
+        
+        let startPoint = CGPoint(x: 200, y: 50)
+        let rect = CGRect(x: startPoint.x, y: startPoint.y, width: 120, height: 150)
+        let rectResize = CGRect(x: startPoint.x * 2, y: startPoint.y * 2, width: 120, height: 150)
         
         
+        let path = CGMutablePath()
+        path.addRoundedRect(in: rect, cornerWidth: 20, cornerHeight: 20)
+        shape.path = path
+
+        path.addEllipse(in: rect)
+        shape.path = path
+
+        path.addRect(rectResize, transform: .init(scaleX: 0.5, y: 0.5))
+        shape.path = path
+    }
+
 // Document //////////////////////////////////////////////////////////////
-//        let document = CAShapeLayer()
-//        view.layer.addSublayer(document)
-//        document.strokeColor = UIColor.red.cgColor
-//        document.fillColor = UIColor.blue.cgColor
-//        let size = CGSize(width: 100, height: 120)
-//        let foldInset: CGFloat = 30
-//
-//        let path = CGMutablePath()
-//
-//        path.move(to: .zero)
-//        path.addLine(to: CGPoint(x:0, y: size.height))
-//        path.addLine(to: CGPoint(x: size.width, y: size.height))
-//        path.addLine(to: CGPoint(x: size.width, y: foldInset))
-//        path.addLine(to: CGPoint(x: size.width - foldInset, y: 0))
-//        path.addLine(to: .zero)
-//
-//        path.move(to: CGPoint(x: size.width - foldInset, y: 0))
-//        path.addLine(to: CGPoint(x: size.width - foldInset, y: foldInset))
-//        path.addLine(to: CGPoint(x: size.width, y: foldInset))
-//
-//        document.path = path
+    func setupDocument() {
+        document.strokeColor = UIColor.red.cgColor
+        document.fillColor = UIColor.yellow.cgColor
+        let size = CGSize(width: 100, height: 120)
+        let foldInset: CGFloat = 30
+
+        let path = CGMutablePath()
+
+        path.move(to: .zero)
+        path.addLine(to: CGPoint(x:0, y: size.height))
+        path.addLine(to: CGPoint(x: size.width, y: size.height))
+        path.addLine(to: CGPoint(x: size.width, y: foldInset))
+        path.addLine(to: CGPoint(x: size.width - foldInset, y: 0))
+        path.addLine(to: .zero)
+
+        path.move(to: CGPoint(x: size.width - foldInset, y: 0))
+        path.addLine(to: CGPoint(x: size.width - foldInset, y: foldInset))
+        path.addLine(to: CGPoint(x: size.width, y: foldInset))
+
+        document.path = path
+    }
         
         
 // Replicator //////////////////////////////////////////////////////////////
-//        let replicator = CAReplicatorLayer()
-//        view.layer.addSublayer(replicator)
-//        replicator.instanceCount = 3
-//
-//        let square = CALayer()
+    func setupReplicator() {
+//        let startingPoint = CGPoint(x: 100, y: 100)
+        replicator.instanceCount = 3
+
+        let square = CAShapeLayer()
 //        square.frame.size = CGSize(width: 30, height: 30)
-//        square.backgroundColor = UIColor.blue.cgColor
-//
-//        replicator.addSublayer(square)
-//
-//        replicator.instanceTransform = CATransform3DMakeTranslation(50, 0, 0)
-//
-//        replicator.instanceBlueOffset = -0.3
+        square.frame = CGRect(x: 100, y: 100, width: 30, height: 30)
+        square.backgroundColor = UIColor.green.cgColor
+
+        replicator.addSublayer(square)
+
+        replicator.instanceTransform = CATransform3DMakeTranslation(50, 0, 0)
+
+        replicator.instanceBlueOffset = -0.3
+    }
 //
         
 // Loading Shape //////////////////////////////////////////////////////////////
-//        let shape = CAShapeLayer()
 //
-//        shape.frame.size = CGSize(width: 10, height: 50)
-//        shape.anchorPoint = CGPoint(x: 0.5, y: 1)
-//
-//        shape.path = CGPath(ellipseIn: shape.frame, transform: nil)
-//        shape.fillColor = UIColor.blue.cgColor
-//
-//        let replicator = CAReplicatorLayer()
-//        view.layer.addSublayer(replicator)
-//        replicator.instanceCount = 20
-//
-//        let fullCircle = CGFloat.pi * 2
-//        let angle = fullCircle / CGFloat(replicator.instanceCount)
-//
-//        replicator.instanceTransform = CATransform3DMakeRotation(angle, 0, 0, 1)
-//
-//        replicator.bounds.size = CGSize(width: shape.frame.height * .pi, height: shape.frame.height)
-//
-//        replicator.addSublayer(shape)
+    func setupLoadingShape() {
+
+        loadingShape.frame.size = CGSize(width: 10, height: 50)
+//        loadingShape.frame = CGRect(x: 50, y: 200, width: 10, height: 50)
+        loadingShape.anchorPoint = CGPoint(x: 0.5, y: 1)
+
+        loadingShape.path = CGPath(ellipseIn: loadingShape.frame, transform: nil)
+        loadingShape.fillColor = UIColor.black.cgColor
+
+        loadingReplicator.instanceCount = 20
+
+        let fullCircle = CGFloat.pi * 2
+        let angle = fullCircle / CGFloat(loadingReplicator.instanceCount)
+
+        loadingReplicator.instanceTransform = CATransform3DMakeRotation(angle, 0, 0, 1)
+
+        loadingReplicator.bounds.size = CGSize(width: (loadingShape.frame.height * .pi), height: loadingShape.frame.height)
+//        loadingShape.transform = CATransform3DMakeTranslation(100, 200, 0)
+        loadingReplicator.transform = CATransform3DMakeTranslation(180, 500, 0)
+        loadingReplicator.addSublayer(loadingShape)
+    }
+
         
         
 // Masking //////////////////////////////////////////////////////////////
-        
+//Need icon file
+//    func setupMask() {
 //        let mask = CALayer()
 //        let image = UIImage(named: "SwiftIcon")!
 //
@@ -107,12 +133,14 @@ class ViewController: UIViewController {
 //        gradient.frame.size = image.size
 //
 //        gradient.colors = [
-//            UIColor(red: 0.04, green: 0.13, blue: 0.54, alpha: 1).cgColor,
-//            UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor,
-//            UIColor(red: 0.85, green: 0.25, blue: 0.25, alpha: 1).cgColor,
+//        UIColor(red: 0.04, green: 0.13, blue: 0.54, alpha: 1).cgColor,
+//        UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor,
+//        UIColor(red: 0.85, green: 0.25, blue: 0.25, alpha: 1).cgColor,
 //        ]
 //
 //        gradient.mask = mask
+//    }
+
         
 // More Masking //////////////////////////////////////////////////////////////
 // Mask a shape, mask text, and mask a mask
@@ -125,15 +153,6 @@ class ViewController: UIViewController {
 //        let mask = CALayer()
 //        mask.contents = saturnImage
 //        image.mask = mask
-        
-        
-        
-        
-        
-        
-        
-        
-    }
 
 }
 
